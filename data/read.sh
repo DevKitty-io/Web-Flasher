@@ -23,7 +23,6 @@ while IFS=',' read -r NAME DESC VER LINK EMOJI RELID; do
 
 	if [ $counter -eq 0 ]; then
 		counter=$((counter + 1))
-		# echo "$NAME,$DESC,$VER,$LINK,$EMOJI,$RELID," >>"$temp_file"
 		echo "$NAME,$DESC,$VER,$LINK,$EMOJI,$RELID," >>"$temp_file"
 		continue
 	else
@@ -42,28 +41,14 @@ while IFS=',' read -r NAME DESC VER LINK EMOJI RELID; do
 	# NOTE: gets the last elem in string
 	repo=${LINK##*/}
 	repo=${repo::-1}
-	# ver=${VER:1:-1}
 	ver=${VER:1:-1}
-  echo "$ver"
-	echo "$repo"
-  # echo "$tag"
-  if [[ $ver != "latest" ]]; then
-    # TODO get tag later using this api call
-    # URL="https://api.github.com/repos/DevKitty-io/${repo}/tags"
-  
-  # https://api.github.com/repos/DevKitty-io/Wardriver-Firmware/releases/tags/v0.0-240817
-    URL="https://api.github.com/repos/DevKitty-io/${repo}/releases/tags/${ver}"
-  else
-    URL="https://api.github.com/repos/DevKitty-io/${repo}/releases/${ver}"
-  fi
+	# echo "$repo"
 	# const assetUrl = `https://api.github.com/repos/DevKitty-io/${text}/releases/latest`;
 	# curl -LO "$lline/"
 	#https://api.github.com/repositories/731907336/releases/latest
-  # https://github.com/DevKitty-io/ScriptKitty-Firmware/releases/tag/
-  # https://api.github.com/repos/DevKitty-io/ScriptKitty-Firmware/tags
-  # URL=""https://api.github.com/repos/DevKitty-io/ScriptKitty-Firmware/zipball/refs/tags/v1.0-231225""
-  echo "$URL"
-  list=$(curl "$URL")
+	URL="https://api.github.com/repos/DevKitty-io/${repo}/releases/${ver}"
+	# echo "$URL"
+	list=$(curl "$URL")
 	if [[ -z "$list" ]]; then
 		# echo "check=false" >> "$GITHUB_OUTPUT"
 		# TODO: figure how to get this check to clear so that the next check is not neededj
